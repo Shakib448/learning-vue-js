@@ -39,8 +39,13 @@ export default {
     toggleAddTask() {
       this.showAddTask = !this.showAddTask;
     },
-    addTask(task) {
-      this.tasks = [...this.tasks, task];
+    async addTask(task) {
+      try {
+        const { data } = await axios.post("api/tasks", task);
+        this.tasks = [...this.tasks, data];
+      } catch (error) {
+        console.log(error);
+      }
     },
     deleteTask(id) {
       if (confirm("Are you sure you want to delete?")) {
@@ -60,14 +65,14 @@ export default {
         console.log(error);
       }
     },
-    async fetchTask(id) {
-      try {
-        const { data } = await axios.get(`api/tasks/${id}`);
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // async fetchTask(id) {
+    //   try {
+    //     const { data } = await axios.get(`api/tasks/${id}`);
+    //     return data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   },
   async created() {
     this.tasks = await this.fetchTask();
