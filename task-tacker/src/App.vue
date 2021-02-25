@@ -20,6 +20,8 @@
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import axios from "axios";
+
 export default {
   name: "App",
   components: {
@@ -51,14 +53,16 @@ export default {
       );
     },
     async fetchTask() {
-      const res = await fetch("http://localhost:5000/tasks");
-      const data = await res.json();
-      console.log(data);
-      return data;
+      try {
+        const { data } = await axios.get("http://localhost:5000/tasks");
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
-  created() {
-    this.tasks = this.fetchTask();
+  async created() {
+    this.tasks = await this.fetchTask();
   },
 };
 </script>
