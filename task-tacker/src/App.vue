@@ -16,12 +16,12 @@ export default {
   },
   data() {
     return {
-      task: [],
+      tasks: [],
     };
   },
   methods: {
     deleteTask(id) {
-      console.log("task", id);
+      this.tasks = this.tasks.filter((t) => t.id !== id);
     },
   },
   created() {
