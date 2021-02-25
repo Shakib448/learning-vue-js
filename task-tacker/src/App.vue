@@ -21,7 +21,9 @@ export default {
   },
   methods: {
     deleteTask(id) {
-      this.tasks = this.tasks.filter((t) => t.id !== id);
+      if (confirm("Are you sure you want to delete?")) {
+        this.tasks = this.tasks.filter((t) => t.id !== id);
+      }
     },
   },
   created() {
