@@ -54,7 +54,15 @@ export default {
     },
     async fetchTask() {
       try {
-        const { data } = await axios.get("http://localhost:5000/tasks");
+        const { data } = await axios.get("api/tasks");
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchTask(id) {
+      try {
+        const { data } = await axios.get(`api/tasks/${id}`);
         return data;
       } catch (error) {
         console.log(error);
