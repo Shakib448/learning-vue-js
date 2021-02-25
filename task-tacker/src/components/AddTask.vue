@@ -83,4 +83,7 @@ export default {
   flex: 2;
   height: 20px;
 }
+input[type="checkbox"] {
+  cursor: pointer;
+}
 </style>
