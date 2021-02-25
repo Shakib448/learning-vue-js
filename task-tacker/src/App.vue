@@ -47,15 +47,22 @@ export default {
         console.log(error);
       }
     },
-    deleteTask(id) {
+    async deleteTask(id) {
       if (confirm("Are you sure you want to delete?")) {
-        this.tasks = this.tasks.filter((t) => t.id !== id);
+        const res = await fetch(`api/tasks/${id}`, { method: "DELETE" });
+        res.status === 200
+          ? (this.tasks = this.tasks.filter((t) => t.id !== id))
+          : alert("Error deleting task");
       }
     },
-    toggleReminder(id) {
+    async toggleReminder(id) {
+      const taskToToggle = await this.fetchTasks(id);
+      const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+      const { data } = await axios.put(`api/tasks/${id}`, updTask);
       this.tasks = this.tasks.map((t) =>
-        t.id === id ? { ...t, reminder: !t.reminder } : t
+        t.id === id ? { ...t, reminder: data.reminder } : t
       );
+      return data;
     },
     async fetchTask() {
       try {
@@ -65,14 +72,14 @@ export default {
         console.log(error);
       }
     },
-    // async fetchTask(id) {
-    //   try {
-    //     const { data } = await axios.get(`api/tasks/${id}`);
-    //     return data;
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
+    async fetchTasks(id) {
+      try {
+        const { data } = await axios.get(`api/tasks/${id}`);
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   async created() {
     this.tasks = await this.fetchTask();
