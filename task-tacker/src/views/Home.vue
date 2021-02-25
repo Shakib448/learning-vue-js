@@ -18,6 +18,9 @@ import axios from "axios";
 
 export default {
   name: "Home",
+  props: {
+    showAddTask: Boolean,
+  },
   components: {
     Tasks,
     AddTask,
